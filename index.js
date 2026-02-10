@@ -1,13 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 app.use(express.json());
 
 const OFFICIAL_EMAIL = "rishu1350.be23@chitkara.edu.in";
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
-const genAI = GOOGLE_API_KEY ? new GoogleGenerativeAI(GOOGLE_API_KEY) : null;
 
 function generateFibonacci(n) 
 {
@@ -134,25 +131,8 @@ app.post("/bfhl", async (req, res) => {
           error: "AI value must be a question string",
         });
 
-      // Use Google Generative AI if API key is set
-      if (genAI) {
-        try {
-          const model = genAI.getGenerativeModel({
-            model: "gemini-pro",
-          });
-          const result = await model.generateContent(value);
-          const answer = result.response.text();
-          data = { answer };
-        } catch (aiErr) {
-          return res.status(500).json({
-            is_success: false,
-            error: `AI API error: ${aiErr.message}`,
-          });
-        }
-      } 
-      else {
-        data = { answer: `Echo: ${value} (No Google API key configured)` };
-      }
+      // Placeholder for AI (add real Google AI when API key is properly configured)
+      data = { answer: `Echo: ${value}` };
     } 
     else {
       return res
